@@ -557,17 +557,15 @@
     .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
     .nav-links { display: none; }
   }
-  @media (max-width: 600px) {
-    .gallery-grid { grid-template-columns: 1fr; }
-    .hero-name { font-size: clamp(3.2rem, 14vw, 5rem); }
-    /* Add this part for the mobile gap fix */
-    footer {
-        padding: 4rem 0 2rem 0; 
-    }
-    .footer-inner {
-        flex-direction: column;
-        gap: 20px;
-        text-align: center;
+ @media (max-width: 600px) {
+    /* Target the text above "Ritam" */
+    .hero p:first-of-type {
+        font-size: 0.65rem; /* Shrink font to fit the width */
+        letter-spacing: 0.1em; /* Tighten the gaps between letters */
+        white-space: nowrap; /* Forces them to stay on one line */
+        display: flex;
+        justify-content: center;
+        gap: 8px; /* Control the distance between the words */
     }
 } /* This closing bracket ends the 600px media query */
   }
