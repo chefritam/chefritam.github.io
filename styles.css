@@ -101,3 +101,31 @@ footer h2 { margin-bottom: 10px; }
 /* Animations */
 .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease-in-out; }
 .reveal.active { opacity: 1; transform: translateY(0); }
+/* Mobile-Specific Adjustments */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column; /* Stacks logo above the links */
+        padding: 15px 10px;
+    }
+
+    .nav-links {
+        gap: 10px;
+        font-size: 0.9rem;
+        margin-top: 10px;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem; /* Shrinks that giant title so it doesn't overlap */
+        line-height: 1.2;
+        margin-bottom: 15px;
+    }
+
+    .hero p {
+        font-size: 1rem;
+        padding: 0 15px;
+    }
+
+    .container {
+        padding: 60px 15px; /* Less padding so content fits better */
+    }
+}
