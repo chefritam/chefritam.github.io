@@ -10,12 +10,13 @@
 <style>
   /* 1. The custom font MUST be inside the style tag! */
   @font-face {
-    font-family: 'BritishClassical';
-    src: url('fonts/britishclassical-thinitalic.otf') format('opentype'); 
-    font-weight: normal;
-    font-style: italic;
-    font-display: swap;
-  }
+  font-family: 'BritishClassical';
+  /* I added quotes around the filename because of the spaces */
+  src: url('fonts/British Classical Demo.ttf') format('truetype'); 
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -172,16 +173,16 @@
     opacity: 0;
     animation: fadeUp 1s ease 0.55s forwards;
   }
- .hero-name .first {
-    display: block;
-    font-family: 'BritishClassical', serif; /* Changed from 'Canteria' */
-    font-style: italic;
-    font-size: clamp(5rem, 13vw, 11.5rem);
-    font-weight: normal;
-    color: var(--cream);
-    line-height: 0.9;
-    letter-spacing: 0.04em;
-  }
+.hero-name .first {
+  display: block;
+  font-family: 'BritishClassical', serif; 
+  font-style: normal; /* Change to normal if the Demo font isn't naturally italic */
+  font-size: clamp(5rem, 13vw, 11.5rem);
+  font-weight: normal;
+  color: var(--cream);
+  line-height: 0.9;
+  letter-spacing: 0.04em;
+}
   .hero-name .last {
     display: block;
     font-family: 'Cormorant Garamond', serif;
