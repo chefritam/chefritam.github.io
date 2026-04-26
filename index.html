@@ -1,88 +1,737 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Culinary Portfolio | Aspiring Chef</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ritam Mondal — Chef in Training</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #c8a96e;
+    --gold-light: #e8d4a8;
+    --cream: #f0e8d8;
+    --bg: #0c0b09;
+    --bg2: #131109;
+    --wine: #5c2030;
+    --muted: #7a6e62;
+    --border: rgba(200, 169, 110, 0.18);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid rgba(200,169,110,0.5);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), width 0.3s, height 0.3s, border-color 0.3s;
+  }
+
+  /* Grain overlay */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.028;
+    pointer-events: none;
+    z-index: 9000;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 4rem;
+    transition: background 0.4s, padding 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(12, 11, 9, 0.88);
+    backdrop-filter: blur(12px);
+    padding: 1rem 4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Pinyon Script', cursive;
+    font-size: 1.9rem;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    font-weight: 400;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1800&q=80');
+    background-size: cover; background-position: center 40%;
+    filter: brightness(0.22) saturate(0.7);
+    transform: scale(1.05);
+    animation: heroZoom 18s ease-in-out infinite alternate;
+  }
+  @keyframes heroZoom {
+    from { transform: scale(1.05); }
+    to   { transform: scale(1.12); }
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(12,11,9,0.3) 0%,
+      rgba(12,11,9,0.1) 40%,
+      rgba(12,11,9,0.7) 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding: 2rem;
+  }
+  .hero-eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.3s forwards;
+  }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 11vw, 9.5rem);
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    color: var(--cream);
+    margin-bottom: 0.3em;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.55s forwards;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--gold-light);
+    font-weight: 300;
+  }
+  .hero-divider {
+    width: 0; height: 1px;
+    background: var(--gold);
+    margin: 2rem auto;
+    animation: expandLine 1.2s ease 1.1s forwards;
+  }
+  @keyframes expandLine {
+    to { width: 80px; }
+  }
+  .hero-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    font-weight: 300;
+    color: rgba(240,232,216,0.7);
+    letter-spacing: 0.04em;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 1.3s forwards;
+  }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    opacity: 0; animation: fadeUp 0.8s ease 2s forwards;
+  }
+  .hero-scroll span {
+    font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .scroll-line {
+    width: 1px; height: 48px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(0.7); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTION SHARED */
+  section { padding: 7rem 0; }
+  .container { max-width: 1160px; margin: 0 auto; padding: 0 2.5rem; }
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::after {
+    content: '';
+    display: block; height: 1px; width: 40px;
+    background: var(--gold); opacity: 0.4;
+  }
+
+  /* REVEAL ANIMATION */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.22s; }
+  .reveal-delay-3 { transition-delay: 0.34s; }
+  .reveal-delay-4 { transition-delay: 0.46s; }
+
+  /* PHILOSOPHY */
+  .philosophy { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .philosophy-inner {
+    display: grid; grid-template-columns: 1fr 2fr; gap: 6rem; align-items: center;
+  }
+  .philosophy-left {}
+  .philosophy-quote {
+    font-family: 'Pinyon Script', cursive;
+    font-size: 5rem;
+    color: var(--gold);
+    opacity: 0.15;
+    line-height: 1;
+    margin-bottom: -1.5rem;
+  }
+  .philosophy-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--cream);
+    margin-bottom: 2rem;
+  }
+  .philosophy-title em { font-style: italic; color: var(--gold-light); }
+  .philosophy-body {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: rgba(240,232,216,0.65);
+    margin-bottom: 1.5rem;
+  }
+  .philosophy-accent {
+    display: flex; align-items: center; gap: 1rem;
+    color: var(--gold);
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .philosophy-accent::before {
+    content: ''; display: block;
+    width: 24px; height: 1px; background: var(--gold);
+  }
+  .philosophy-image-wrap {
+    position: relative; border-radius: 2px; overflow: hidden;
+    aspect-ratio: 3/4;
+  }
+  .philosophy-image-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: saturate(0.8) brightness(0.85);
+    transition: transform 0.8s ease, filter 0.8s ease;
+  }
+  .philosophy-image-wrap:hover img {
+    transform: scale(1.04);
+    filter: saturate(0.95) brightness(0.95);
+  }
+  .philosophy-image-wrap::after {
+    content: '';
+    position: absolute; inset: 0;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
+  /* GALLERY */
+  .gallery-header { text-align: center; margin-bottom: 4rem; }
+  .gallery-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 300;
+    color: var(--cream);
+  }
+  .gallery-subtitle {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 0.8rem;
+    letter-spacing: 0.08em;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+  }
+  .gallery-card {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    cursor: none;
+  }
+  .gallery-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.65) saturate(0.7);
+    transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1), filter 0.6s ease;
+  }
+  .gallery-card:hover img {
+    transform: scale(1.08);
+    filter: brightness(0.5) saturate(0.9);
+  }
+  .gallery-card-content {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem 1.8rem;
+    background: linear-gradient(to top, rgba(12,11,9,0.92) 0%, transparent 55%);
+    transition: opacity 0.4s;
+  }
+  .gallery-card-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4.5rem;
+    font-weight: 300;
+    color: rgba(200,169,110,0.1);
+    position: absolute;
+    top: 1rem; right: 1.5rem;
+    line-height: 1;
+    transition: color 0.4s;
+  }
+  .gallery-card:hover .gallery-card-number { color: rgba(200,169,110,0.2); }
+  .gallery-card-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .gallery-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.65rem;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 0.6rem;
+  }
+  .gallery-card-desc {
+    font-size: 0.82rem;
+    color: rgba(240,232,216,0.55);
+    line-height: 1.6;
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+  }
+  .gallery-card:hover .gallery-card-desc {
+    max-height: 80px; opacity: 1;
+  }
+  .gallery-card-line {
+    width: 24px; height: 1px;
+    background: var(--gold); opacity: 0.5;
+    margin-bottom: 0.8rem;
+    transition: width 0.4s ease;
+  }
+  .gallery-card:hover .gallery-card-line { width: 48px; opacity: 1; }
+
+  /* JOURNEY */
+  .journey { background: var(--bg2); border-top: 1px solid var(--border); }
+  .journey-header { margin-bottom: 5rem; }
+  .journey-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 300;
+    color: var(--cream);
+    max-width: 500px;
+  }
+  .journey-title em { font-style: italic; color: var(--gold-light); }
+  .timeline { position: relative; padding-left: 0; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1px; background: var(--border);
+  }
+  .timeline-item {
+    position: relative;
+    padding: 0 0 4rem 3.5rem;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-dot {
+    position: absolute; left: -5px; top: 6px;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+    background: var(--bg2);
+    transition: background 0.3s;
+  }
+  .timeline-item:hover .timeline-dot { background: var(--gold); }
+  .timeline-date {
+    font-size: 0.65rem; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 0.9rem;
+  }
+  .timeline-event {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem; font-weight: 300;
+    color: var(--cream); line-height: 1.2;
+    margin-bottom: 0.8rem;
+  }
+  .timeline-detail {
+    font-size: 0.9rem; line-height: 1.75;
+    color: rgba(240,232,216,0.55); max-width: 520px;
+  }
+  .timeline-tag {
+    display: inline-block; margin-top: 1rem;
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.9rem;
+    font-size: 0.65rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--gold);
+    border-radius: 1px;
+  }
+
+  /* CONTACT */
+  .contact { border-top: 1px solid var(--border); }
+  .contact-inner {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6rem; align-items: end;
+  }
+  .contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 5vw, 5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+  .contact-title em { font-style: italic; color: var(--gold-light); }
+  .contact-desc {
+    font-size: 1rem; line-height: 1.8;
+    color: rgba(240,232,216,0.55);
+    margin-bottom: 2.5rem;
+  }
+  .contact-email {
+    display: inline-flex; align-items: center; gap: 1rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(200,169,110,0.3);
+    padding-bottom: 0.4rem;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .contact-email:hover { border-color: var(--gold); color: var(--gold-light); }
+  .contact-email::after {
+    content: '→';
+    transition: transform 0.3s;
+    font-style: normal;
+  }
+  .contact-email:hover::after { transform: translateX(6px); }
+  .contact-right { display: flex; flex-direction: column; gap: 2rem; }
+  .contact-stat {
+    padding: 2rem;
+    border: 1px solid var(--border);
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .contact-stat:hover { border-color: rgba(200,169,110,0.4); }
+  .contact-stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem; font-weight: 300;
+    color: var(--gold); line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .contact-stat-label {
+    font-size: 0.72rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0;
+  }
+  .footer-inner {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Pinyon Script', cursive;
+    font-size: 1.4rem; color: var(--gold);
+    opacity: 0.6;
+    text-decoration: none;
+  }
+  .footer-copy {
+    font-size: 0.68rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    nav.scrolled { padding: 0.9rem 2rem; }
+    .philosophy-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .philosophy-image-wrap { aspect-ratio: 16/9; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 600px) {
+    .gallery-grid { grid-template-columns: 1fr; }
+    .hero-name { font-size: clamp(3.2rem, 14vw, 5rem); }
+  }
+</style>
 </head>
 <body>
-    <nav>
-        <div class="logo">Chef's Canvas</div>
-        <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#gallery">Creations</a></li>
-            <li><a href="#journey">Journey</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
 
-    <header class="hero">
-        <div class="hero-content">
-            <h1 class="fade-in">Elevating Ingredients.<br>Crafting Experiences.</h1>
-            <p class="fade-in">A culinary portfolio blending classic patisserie techniques with healthy, natural innovations.</p>
-            <a href="#gallery" class="btn fade-in">View My Plates</a>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Ritam</a>
+  <ul class="nav-links">
+    <li><a href="#philosophy">Philosophy</a></li>
+    <li><a href="#creations">Creations</a></li>
+    <li><a href="#journey">Journey</a></li>
+    <li><a href="#contact">Connect</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Chef in Training &nbsp;·&nbsp; Patisserie &nbsp;·&nbsp; Natural Cuisine</p>
+    <h1 class="hero-name">Ritam<br><em>Mondal</em></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-tagline">Where classic technique meets natural intention</p>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy" id="philosophy">
+  <div class="container">
+    <div class="philosophy-inner">
+      <div class="philosophy-left">
+        <div class="section-label reveal">The philosophy</div>
+        <div class="philosophy-quote reveal">&ldquo;</div>
+        <h2 class="philosophy-title reveal">
+          Cooking is an act of<br><em>balance</em>
+        </h2>
+        <p class="philosophy-body reveal reveal-delay-1">
+          My craft lives in the tension between discipline and discovery — mastering large-batch preparations and delicate pastry work while relentlessly exploring how natural ingredients can transform a dish without sacrificing an ounce of flavour.
+        </p>
+        <p class="philosophy-body reveal reveal-delay-2">
+          From custard preparations to desserts sweetened with nothing but dates and banana purée — every plate is a quiet argument that health and indulgence are not opposites.
+        </p>
+        <div class="philosophy-accent reveal reveal-delay-3">Crafted with intention</div>
+      </div>
+      <div class="philosophy-image-wrap reveal reveal-delay-2">
+        <img
+          src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800&q=80"
+          alt="Chef at work" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="creations">
+  <div class="container">
+    <div class="gallery-header reveal">
+      <div class="section-label" style="justify-content: center;">Signature creations</div>
+      <h2 class="gallery-title">The plates that define me</h2>
+      <p class="gallery-subtitle">A study in texture, balance, and restraint</p>
+    </div>
+  </div>
+  <div class="gallery-grid">
+    <!-- Card 1 -->
+    <div class="gallery-card reveal reveal-delay-1">
+      <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=800&q=80" alt="Artisan Pastry" loading="lazy" />
+      <span class="gallery-card-number">01</span>
+      <div class="gallery-card-content">
+        <div class="gallery-card-line"></div>
+        <div class="gallery-card-label">Patisserie</div>
+        <h3 class="gallery-card-title">Artisan Pastry</h3>
+        <p class="gallery-card-desc">Classic custard and cream techniques, executed with precision — the foundation upon which all my work rests.</p>
+      </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="gallery-card reveal reveal-delay-2">
+      <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=800&q=80" alt="Natural Sweetness" loading="lazy" />
+      <span class="gallery-card-number">02</span>
+      <div class="gallery-card-content">
+        <div class="gallery-card-line"></div>
+        <div class="gallery-card-label">Natural Cuisine</div>
+        <h3 class="gallery-card-title">Natural Sweetness</h3>
+        <p class="gallery-card-desc">Desserts built around dates, banana purées, and whole ingredients — proving that nature needs no improvement.</p>
+      </div>
+    </div>
+    <!-- Card 3 -->
+    <div class="gallery-card reveal reveal-delay-3">
+      <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=800&q=80" alt="Savory Balance" loading="lazy" />
+      <span class="gallery-card-number">03</span>
+      <div class="gallery-card-content">
+        <div class="gallery-card-line"></div>
+        <div class="gallery-card-label">Plating</div>
+        <h3 class="gallery-card-title">Savory Balance</h3>
+        <p class="gallery-card-desc">Precision cookery and modern plating — where flavour architecture meets visual composition.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section class="journey" id="journey">
+  <div class="container">
+    <div class="journey-header">
+      <div class="section-label reveal">The road ahead</div>
+      <h2 class="journey-title reveal">A <em>journey</em> into the kitchen</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">May 2026</div>
+        <h3 class="timeline-event">Commencing Formal Culinary Training</h3>
+        <p class="timeline-detail">
+          Joining the Ishtha Institute of Hospitality and Culinary Arts (IIHCA) to begin a structured programme in classical and contemporary culinary arts — turning a lifelong passion into professional mastery.
+        </p>
+        <span class="timeline-tag">IIHCA · Enrolled</span>
+      </div>
+      <div class="timeline-item reveal reveal-delay-1">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Upcoming</div>
+        <h3 class="timeline-event">Campus Training · Khatima, Uttarakhand</h3>
+        <p class="timeline-detail">
+          Relocating for professional campus immersion in the foothills of the Himalayas — mastering regional ingredient profiles, high-volume kitchen environments, and the discipline of professional service.
+        </p>
+        <span class="timeline-tag">Uttarakhand · Relocating</span>
+      </div>
+      <div class="timeline-item reveal reveal-delay-2">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">The horizon</div>
+        <h3 class="timeline-event">Building Something of My Own</h3>
+        <p class="timeline-detail">
+          The long game: to open a kitchen that champions natural ingredients and honest cooking — a place where flavour is philosophy, not just technique.
+        </p>
+        <span class="timeline-tag">Vision · In progress</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-left">
+        <div class="section-label reveal">Get in touch</div>
+        <h2 class="contact-title reveal">Let's <em>talk</em> food</h2>
+        <p class="contact-desc reveal reveal-delay-1">
+          Whether you want to discuss technique, share a recipe, or explore a collaboration — I'd love to hear from you.
+        </p>
+        <a href="mailto:ritammondal1245@gmail.com" class="contact-email reveal reveal-delay-2">
+          ritammondal1245@gmail.com
+        </a>
+      </div>
+      <div class="contact-right reveal reveal-delay-2">
+        <div class="contact-stat">
+          <div class="contact-stat-num">∞</div>
+          <div class="contact-stat-label">Recipes to explore</div>
         </div>
-    </header>
-
-    <section id="about" class="container reveal">
-        <h2>The Philosophy</h2>
-        <p>Cooking is about balance. My focus lies in perfecting large-batch preparations and delicate pastry work, while constantly experimenting with natural ingredient substitutions to make dishes healthier without sacrificing flavor.</p>
-    </section>
-
-    <section id="gallery" class="container reveal">
-        <h2>Signature Creations</h2>
-        <div class="grid">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80" alt="Pastry">
-                <div class="card-info">
-                    <h3>Artisan Pastry</h3>
-                    <p>Classic custard preparation techniques.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80" alt="Healthy Plate">
-                <div class="card-info">
-                    <h3>Natural Sweetness</h3>
-                    <p>Desserts utilizing dates and banana purées.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=600&q=80" alt="Main Course">
-                <div class="card-info">
-                    <h3>Savory Balance</h3>
-                    <p>Precision cooking and modern plating.</p>
-                </div>
-            </div>
+        <div class="contact-stat">
+          <div class="contact-stat-num">01</div>
+          <div class="contact-stat-label">Culinary philosophy — balance</div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section id="journey" class="container reveal">
-        <h2>The Journey Ahead</h2>
-        <ul class="timeline">
-            <li>
-                <div class="timeline-content">
-                    <h3>May 2026</h3>
-                    <p>Commencing formal culinary program at the Ishtha Institute of Hospitality and Culinary Arts (IIHCA).</p>
-                </div>
-            </li>
-            <li>
-                <div class="timeline-content">
-                    <h3>Upcoming</h3>
-                    <p>Relocating for professional campus training in Khatima, Uttarakhand, to master regional techniques and high-volume environments.</p>
-                </div>
-            </li>
-        </ul>
-    </section>
-
-    <footer id="contact">
-    <h2>Let's Connect</h2>
-    <p>Ready to discuss recipes, techniques, or opportunities.</p>
-    <a href="mailto:ritammondal1245@gmail.com" class="btn">Send an Email</a>
-    <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">Or reach me at: <strong>ritammondal1245@gmail.com</strong></p>
-    <p class="copyright">© 2026 Culinary Portfolio. Handcrafted with code.</p>
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a href="#home" class="footer-logo">Ritam</a>
+      <span class="footer-copy">© 2026 Ritam Mondal · Chef in Training</span>
+    </div>
+  </div>
 </footer>
-    <script src="script.js"></script>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animCursor() {
+    cursor.style.transform = `translate(${mx - 4}px, ${my - 4}px)`;
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx - 16}px, ${ry - 16}px)`;
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+  document.querySelectorAll('a, .gallery-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.width = '52px'; ring.style.height = '52px';
+      ring.style.borderColor = 'rgba(200,169,110,0.8)';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '32px'; ring.style.height = '32px';
+      ring.style.borderColor = 'rgba(200,169,110,0.5)';
+    });
+  });
+
+  // Sticky nav
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
