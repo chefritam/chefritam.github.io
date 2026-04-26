@@ -39,9 +39,18 @@ nav {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?auto=format&fit=crop&w=1920&q=80') center/cover;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('change_the_chef_202604262112.jpeg.png') center/cover;
 }
-.hero h1 { font-size: 4rem; margin-bottom: 20px; }
+hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* This keeps the dark overlay so your white text stays readable */
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('hero-bg.jpg') center/cover;
+}
+.hero h1 { font-size: 2.5rem; margin-bottom: 20px; }
 .hero p { font-size: 1.2rem; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; }
 
 /* Buttons */
