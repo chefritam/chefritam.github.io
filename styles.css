@@ -1,16 +1,18 @@
-/* 1. Define the font */
+/* 1. Define the custom font */
 @font-face {
-    font-family: 'ChefSignature'; /* You can name this anything */
-    src: url('CanteriaFree-Regular.otf'); /* Make sure the filename matches exactly */
+    font-family: 'Canteria'; 
+    src: url('CanteriaFree-Regular.otf') format('opentype'); 
     font-weight: normal;
     font-style: normal;
 }
 
-/* 2. Apply it to your name */
+/* 2. Apply it to your main name */
 .hero h1 {
-    font-family: 'ChefSignature', serif; /* Falls back to serif if it fails */
-    font-size: 3rem; /* Adjust size to fit your new font style */
-    text-transform: none; /* Keeps it from forcing ALL CAPS if your font is script-style */
+    font-family: 'Canteria', 'Playfair Display', serif;
+    font-size: 4.5rem; /* Script fonts usually need to be a bit larger to be readable */
+    font-weight: normal;
+    text-transform: none; 
+    margin-bottom: 20px;
 }
 :root {
     --primary: #d4af37; /* Elegant Gold */
